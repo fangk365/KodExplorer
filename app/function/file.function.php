@@ -1234,12 +1234,9 @@ function get_post_max(){
 
 
 function path_clear($path){
-	$path = str_replace('\\','/',trim($path));
-	$path = preg_replace('/\/+/', '/', $path);
-	if (strstr($path,'../')) {
-		$path = preg_replace('/\/\.+\//', '/', $path);
-	}
-	return $path;
+	if(!$path || $path == '.'){return $path;}
+	$path = str_replace(array("\r","\n",'\\'),array(' ',' ','/'),trim($path));//过滤换行符
+	return preg_replace('/\/+/','/',preg_replace('/(?:^|\/)\.+(?=\/|$)/','/',$path));
 }
 function path_clear_name($path){
 	$path = str_replace('\\','/',trim($path));
